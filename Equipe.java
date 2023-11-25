@@ -1,11 +1,50 @@
 public class Equipe {
+    private String codinome;
+    private int quantidade;
+    private double latitude;
+    private double longitude;
 
-	private String codinome;
+    public Equipe(String codinome, int quantidade, double latitude, double longitude){
+        this.codinome = codinome;
+        this.quantidade = quantidade;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
-	private int quantidade;
+    public String getCodinome(){
+        return this.codinome;
+    }
 
-	private double latitude;
+    public int getQuantidade(){
+        return this.quantidade;
+    }
 
-	private double longitude;
+    public double getLatitude(){
+        return this.latitude;
+    }
 
+    public double getLongitude(){
+        return this.longitude;
+    }
+
+    public void setCodinome(String codinome){
+        this.codinome = codinome;
+    }
+
+    public void setQuantidade(int quantidade){
+        this.quantidade = quantidade;
+    }
+
+    public void setLatitude(double latitude){
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude){
+        this.longitude = longitude;
+    }
+
+    @Override
+    public String toString(){
+        return "Codinome: " + this.codinome + "\nQuantidade: " + this.quantidade + "\nLatitude: " + this.latitude + "\nLongitude: " + this.longitude + "\n -----------------";
+    }
 }
