@@ -2,6 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class GUI extends JFrame implements ActionListener {
     private Eventos eventos;
@@ -9,7 +16,7 @@ public class GUI extends JFrame implements ActionListener {
     private JTextField campoVelocidade, campoPrecipitacao, campoEstiagem, campoMagnitude;
     private JTextArea areaMensagens;
     private JButton botaoCadastrarCiclone, botaoCadastrarSeca, botaoCadastrarTerremoto;
-    private JButton botaoLimpar, botaoMostrar, botaoFechar;
+    private JButton botaoLimpar, botaoMostrar, botaoFechar, botaoLerArquivo;
 
     public GUI() {
         super();
@@ -24,12 +31,14 @@ public class GUI extends JFrame implements ActionListener {
         campoEstiagem = new JTextField(20);
         campoMagnitude = new JTextField(20);
         areaMensagens = new JTextArea(10, 30);
-
+        
         botaoCadastrarCiclone = new JButton("Cadastrar Ciclone");
         botaoCadastrarSeca = new JButton("Cadastrar Seca");
         botaoCadastrarTerremoto = new JButton("Cadastrar Terremoto");
         botaoLimpar = new JButton("Limpar");
         botaoMostrar = new JButton("Mostrar Eventos");
+        botaoLerArquivo = new JButton("Ler Arquivo de Eventos");
+
         botaoFechar = new JButton("Fechar");
 
         JPanel painel = new JPanel(new GridLayout(0, 2));
@@ -58,6 +67,10 @@ public class GUI extends JFrame implements ActionListener {
         painelBotoes.add(botaoLimpar);
         painelBotoes.add(botaoMostrar);
         painelBotoes.add(botaoFechar);
+        painelBotoes.add(botaoLerArquivo);
+
+        
+
 
         setLayout(new BorderLayout());
         add(painel, BorderLayout.CENTER);
@@ -70,9 +83,10 @@ public class GUI extends JFrame implements ActionListener {
         botaoLimpar.addActionListener(this);
         botaoMostrar.addActionListener(this);
         botaoFechar.addActionListener(this);
+        botaoLerArquivo.addActionListener(this);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 400);
+        setSize(1000, 800);
         setVisible(true);
     }
 
@@ -152,6 +166,16 @@ public class GUI extends JFrame implements ActionListener {
             else if(eventos.containsCodigo(campoCodigo.getText())){
                 areaMensagens.append("Erro: Código já cadastrado.\n");
             }
+            else if (source == botaoLerArquivo) {
+              JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Escolha o arquivo de eventos");
+                int result = fileChooser.showOpenDialog(this);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                lerArquivoEventos(selectedFile.getAbsolutePath());
+             }
+         }
             } catch (NumberFormatException ex) {
                 areaMensagens.append("Erro: Formato de número inválido.\n");
 
@@ -190,6 +214,57 @@ public class GUI extends JFrame implements ActionListener {
                 areaMensagens.setText("");
                 for (Evento evento : eventos.getEventos()) {
                     areaMensagens.append(evento.toString() + "\n");
+                }
+            }
+
+
+            private void lerArquivoEventos(String filePath) {
+                Scanner entrada = null; 
+               	try {
+			    BufferedReader streamEntrada = new BufferedReader(new FileReader(filePath));
+			    entrada = new Scanner(streamEntrada);   // Usa como entrada um arquivo
+			   // PrintStream streamSaida = new PrintStream(new File("dadosout.txt"), Charset.forName("UTF-8"));
+			    //System.setOut(streamSaida);             // Usa como saida um arquivo
+		    } catch (Exception e) {
+			    System.out.println(e);
+		    }
+		    Locale.setDefault(Locale.ENGLISH);   // Ajusta para ponto decimal
+		    entrada.useLocale(Locale.ENGLISH);
+		
+		
+
+	        
+               
+                try {
+                    LerArquivos leitor = new LerArquivos(filePath);
+                    String nome;
+                    int ano;
+                    double precoBase;
+                    int numeroPecas;
+                    String linha;
+                    try {			
+                        do {
+                            linha = entrada.nextLine();
+                            if(linha.equals("-1")) break;
+                            String[] partes = linha.split(";");
+                            nome = partes[0];
+                            ano = Integer.parseInt(partes[1]);
+                            precoBase = Double.parseDouble(partes[2]);
+                            numeroPecas = Integer.parseInt(partes[3]);				
+                            if (ludoteca.consultaPorNome(nome) == null) {
+                                ludoteca.addJogo(new JogoTabuleiro(nome, ano, precoBase, numeroPecas));
+                                System.out.println("2:" + ludoteca.consultaPorNome(nome).getNome()+",R$ "+ ludoteca.consultaPorNome(nome).calculaPrecoFinal());
+                            }else{
+                                System.out.println("2:Erro-jogo com nome repetido:"+nome );
+                            }				
+                        }while (true);
+                    } 		 catch (Exception e) {
+                        System.out.println("Nao foi possivel cadastrar o jogo eletronico");
+                    }
+                     // Implemente a lógica para ler o arquivo e processar os dados.
+                    // Por exemplo, leitor.lerDados();
+                } catch (Exception ex) {
+                    areaMensagens.append("Erro ao ler o arquivo: " + ex.getMessage() + "\n");
                 }
             }
         }

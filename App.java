@@ -1,6 +1,5 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        new GUI();
-        //new Interface();
+                new Menu().setVisible(true);        
     }
 }

@@ -15,6 +15,14 @@ public class Evento {
         return this.codigo;
     }
 
+    public double getLatitude() {
+        return this.latitude;
+    }
+
+    public double getLongitude() {
+        return this.longitude;
+    }
+
     public String toString() {
         return "Código: " + this.codigo + "\nData: " + this.data + "\nLatitude: " + this.latitude + "\nLongitude: " + this.longitude;
     }
