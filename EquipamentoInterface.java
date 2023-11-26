@@ -2,6 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
+import java.util.Locale;
+import java.util.Scanner;
 import java.util.ArrayList;
 
 public class EquipamentoInterface extends JFrame {
@@ -118,4 +126,51 @@ public class EquipamentoInterface extends JFrame {
         campoCustoDia.setText("");
         campoCodinome.setText("");
     }
-}
+
+    private void lerArquivoEquipamentos(String filePath) {
+        try (BufferedReader streamEntrada = new BufferedReader(new FileReader(filePath))) {
+            String linha;
+            Scanner entrada;
+            entrada.nextLine(); // Pula a primeira linha
+    
+            while ((linha = entrada.readLine()) != null) {
+                String[] partes = linha.split(";");
+                
+                int id = Integer.parseInt(partes[0]);
+                String nome = partes[1];
+                double custoDiario = Double.parseDouble(partes[2]);
+                String codinome = partes[3];
+                int tipo = Integer.parseInt(partes[4]);
+    
+                Equipamento equipamento = null;
+    
+                switch (tipo) {
+                    case 1:
+                        int capacidadeCombustivel = Integer.parseInt(partes[5]);
+                        equipamento = new Barco(id, nome, custoDiario, codinome, capacidadeCombustivel);
+                        break;
+                    case 2:
+                        double carga = Double.parseDouble(partes[6]);
+                        equipamento = new CaminhaoTanque(id, nome, custoDiario, codinome, carga);
+                        break;
+                    case 3:
+                        String tipoCombustivel = partes[5];
+                        equipamento = new Escavadeira(id, nome, custoDiario, codinome, tipoCombustivel);
+                        break;
+                    default:
+                        System.out.println("Tipo de equipamento desconhecido.");
+                }
+    
+                if (equipamento != null) {
+                    equipamentos.addEquipamento(equipamento);
+                }
+            }
+            areaMensagem.setText("Equipamentos lidos do arquivo com sucesso!\n");
+        } catch (IOException e) {
+            areaMensagem.setText("Erro ao ler dados do arquivo: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            areaMensagem.setText("Erro ao converter dados: " + e.getMessage());
+        }
+    }
+    
+} 
