@@ -15,7 +15,19 @@ public class Equipamento {
 		this.codinome = codinome;
 	}
 
+	public int getId() {
+		return this.id;
+	}
+
+	public String getNome() {
+		return this.nome;
+	}
+
 	public double getCustoDia() {
 		return this.custoDia;
+	}
+
+	public String getCodinome() {
+		return this.codinome;
 	}
 }
