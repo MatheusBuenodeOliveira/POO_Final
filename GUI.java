@@ -235,36 +235,46 @@ public class GUI extends JFrame implements ActionListener {
 
 	        
                
-                try {
-                    LerArquivos leitor = new LerArquivos(filePath);
-                    String nome;
-                    int ano;
-                    double precoBase;
-                    int numeroPecas;
-                    String linha;
-                    try {			
-                        do {
-                            linha = entrada.nextLine();
-                            if(linha.equals("-1")) break;
-                            String[] partes = linha.split(";");
-                            nome = partes[0];
-                            ano = Integer.parseInt(partes[1]);
-                            precoBase = Double.parseDouble(partes[2]);
-                            numeroPecas = Integer.parseInt(partes[3]);				
-                            if (ludoteca.consultaPorNome(nome) == null) {
-                                ludoteca.addJogo(new JogoTabuleiro(nome, ano, precoBase, numeroPecas));
-                                System.out.println("2:" + ludoteca.consultaPorNome(nome).getNome()+",R$ "+ ludoteca.consultaPorNome(nome).calculaPrecoFinal());
-                            }else{
-                                System.out.println("2:Erro-jogo com nome repetido:"+nome );
-                            }				
-                        }while (true);
-                    } 		 catch (Exception e) {
-                        System.out.println("Nao foi possivel cadastrar o jogo eletronico");
+            try {
+                
+                String linha;
+                try {    
+                    entrada.nextLine(); // Pula a primeira linha      
+                    while (entrada.hasNextLine()) {
+                        linha = entrada.nextLine();
+                        String[] partes = linha.split(";");
+            
+                        String codigo = (partes[0]);
+                        String data = partes[1];
+                        double latitude = Double.parseDouble(partes[2]);
+                        double longitude = Double.parseDouble(partes[3]);
+                        int tipoEvento = Integer.parseInt(partes[4]);
+            
+                        switch (tipoEvento) {
+                            case 1: // Ciclone
+                                double velocidade = Double.parseDouble(partes[5]);
+                                double precipitacao = Double.parseDouble(partes[6]);
+                                eventos.addEvento(new Ciclone(codigo, data, latitude, longitude, velocidade, precipitacao));
+                                break;
+                            case 2: // Terremoto
+                                double magnitude = Double.parseDouble(partes[5]);
+                                eventos.addEvento(new Terremoto(codigo, data, latitude, longitude, magnitude));
+                                break;
+                            case 3: // Seca
+                                int diasEstiagem = Integer.parseInt(partes[5]);
+                                eventos.addEvento(new Seca(codigo, data, latitude, longitude, diasEstiagem));
+                                break;
+                            default:
+                                System.out.println("Tipo de evento desconhecido.");
+                        }
                     }
-                     // Implemente a lógica para ler o arquivo e processar os dados.
-                    // Por exemplo, leitor.lerDados();
-                } catch (Exception ex) {
-                    areaMensagens.append("Erro ao ler o arquivo: " + ex.getMessage() + "\n");
+                } catch (Exception e) {
+                    System.out.println("Erro ao ler dados do arquivo: " + e.getMessage());
                 }
+            } catch (Exception e) {
+                System.out.println("Erro ao abrir o arquivo: " + e.getMessage());
+            }
+            
+             
             }
         }
