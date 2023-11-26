@@ -16,7 +16,7 @@ public class EquipamentoInterface extends JFrame {
     private JTextField campoId, campoNome, campoCustoDia, campoCodinome;
     private JTextArea areaMensagem;
     private Equipamentos equipamentos;
-    private JButton botaoAdicionar, botaoOrdenar, botaoListar;
+    private JButton botaoAdicionar, botaoOrdenar, botaoListar, botaoLerArquivos;
 
     public EquipamentoInterface() {
         equipamentos = new Equipamentos();
@@ -51,6 +51,7 @@ public class EquipamentoInterface extends JFrame {
         botaoAdicionar = new JButton("Adicionar Equipamento");
         botaoOrdenar = new JButton("Ordenar por ID");
         botaoListar = new JButton("Listar Equipamentos");
+        botaoLerArquivos = new JButton("Ler Arquivo de Equipamentos");
 
         botaoAdicionar.addActionListener(new ActionListener() {
             @Override
@@ -73,9 +74,17 @@ public class EquipamentoInterface extends JFrame {
             }
         });
 
+        botaoLerArquivos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //lerArquivoEquipamentos();
+            }
+        });
+
         painelBotoes.add(botaoAdicionar);
         painelBotoes.add(botaoOrdenar);
         painelBotoes.add(botaoListar);
+        painelBotoes.add(botaoLerArquivos);
 
         add(painelBotoes, BorderLayout.CENTER);
 
