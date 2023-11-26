@@ -8,12 +8,12 @@ public class Equipe {
     private double longitude;
 	private ArrayList <Equipamento> equipamentos = new ArrayList <Equipamento>();
 
-    public Equipe(String codinome, int quantidade, double latitude, double longitude, ArrayList <Equipamento> equipamentos){
+    public Equipe(String codinome, int quantidade, double latitude, double longitude){
         this.codinome = codinome;
         this.quantidade = quantidade;
         this.latitude = latitude;
         this.longitude = longitude;
-		this.equipamentos = equipamentos;
+		
     }
 
     public String getCodinome(){
@@ -46,6 +46,10 @@ public class Equipe {
 
     public void setLongitude(double longitude){
         this.longitude = longitude;
+    }
+
+    public void addEquipamento(Equipamento equipamento){
+        this.equipamentos.add(equipamento);
     }
 
 	public double custoDiario(){

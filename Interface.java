@@ -2,13 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Interface extends JFrame {
 
     private JTextField campoNome, campoQuantidade, campoLatitude, campoLongitude;
     private JTextArea areaMensagem;
     private Equipes equipes;
-    private JButton botaoConfirmar, botaoLimpar, botaoMostrarDados, botaoFechar;
+    private JButton botaoConfirmar, botaoLimpar, botaoMostrarDados, botaoFechar, botaoLerEquipes;
 
     public Interface() {
         equipes = new Equipes();
@@ -46,16 +53,19 @@ public class Interface extends JFrame {
         botaoLimpar = new JButton("Limpar");
         botaoMostrarDados = new JButton("Mostrar Dados");
         botaoFechar = new JButton("Fechar");
+        botaoLerEquipes = new JButton("Ler Equipes de Arquivo");
 
         botaoConfirmar.addActionListener(criarActionListener());
         botaoLimpar.addActionListener(criarActionListener());
         botaoMostrarDados.addActionListener(criarActionListener());
         botaoFechar.addActionListener(criarActionListener());
-
+        botaoLerEquipes.addActionListener(criarActionListener());
         painelBotoes.add(botaoConfirmar);
         painelBotoes.add(botaoLimpar);
         painelBotoes.add(botaoMostrarDados);
         painelBotoes.add(botaoFechar);
+        painelBotoes.add(botaoLerEquipes);
+        
 
         add(painelBotoes, BorderLayout.CENTER);
 
@@ -79,7 +89,16 @@ public class Interface extends JFrame {
                     mostrarDados();
                 } else if (e.getSource() == botaoFechar) {
                     System.exit(0);
-                }
+                }else if (e.getSource() == botaoLerEquipes) {
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setDialogTitle("Escolha o arquivo de eventos");
+                    int result = fileChooser.showOpenDialog(Interface.this);
+
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    lerArquivoEventos(selectedFile.getAbsolutePath());
+             }
+         }
             }
         };
     }
@@ -117,5 +136,44 @@ public class Interface extends JFrame {
         for (Equipe aux : equipes.getEquipes()){
             areaMensagem.append(aux.toString() + "\n");
         }
+    }
+
+    private void lerArquivoEventos(String filePath) {
+        Scanner entrada = null; 
+           try {
+        BufferedReader streamEntrada = new BufferedReader(new FileReader(filePath));
+        entrada = new Scanner(streamEntrada);   // Usa como entrada um arquivo
+       // PrintStream streamSaida = new PrintStream(new File("dadosout.txt"), Charset.forName("UTF-8"));
+        //System.setOut(streamSaida);             // Usa como saida um arquivo
+        } catch (Exception e) {
+        System.out.println(e);
+        }
+        Locale.setDefault(Locale.ENGLISH);   // Ajusta para ponto decimal
+        entrada.useLocale(Locale.ENGLISH);    
+       
+        try {
+            String linha;
+            try {    
+                entrada.nextLine(); // Pula a primeira linha      
+                while (entrada.hasNextLine()) {
+                    linha = entrada.nextLine();
+                    String[] partes = linha.split(";");
+        
+                    String codinome = partes[0];
+                    int quantidade = Integer.parseInt(partes[1]);
+                    double latitude = Double.parseDouble(partes[2]);
+                    double longitude = Double.parseDouble(partes[3]);
+        
+                    equipes.addEquipe(new Equipe(codinome, quantidade, latitude, longitude));
+                }
+            } catch (Exception e) {
+                areaMensagem.setText("Erro ao ler dados do arquivo: " + e.getMessage());
+            }
+        } catch (Exception e) {
+            areaMensagem.setText("Erro ao abrir o arquivo: " + e.getMessage());
+        }
+        
+    
+     
     }
 }

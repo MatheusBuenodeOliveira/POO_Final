@@ -225,15 +225,11 @@ public class GUI extends JFrame implements ActionListener {
 			    entrada = new Scanner(streamEntrada);   // Usa como entrada um arquivo
 			   // PrintStream streamSaida = new PrintStream(new File("dadosout.txt"), Charset.forName("UTF-8"));
 			    //System.setOut(streamSaida);             // Usa como saida um arquivo
-		    } catch (Exception e) {
+		        } catch (Exception e) {
 			    System.out.println(e);
-		    }
-		    Locale.setDefault(Locale.ENGLISH);   // Ajusta para ponto decimal
-		    entrada.useLocale(Locale.ENGLISH);
-		
-		
-
-	        
+		        }
+		        Locale.setDefault(Locale.ENGLISH);   // Ajusta para ponto decimal
+		        entrada.useLocale(Locale.ENGLISH);    
                
             try {
                 
@@ -269,10 +265,10 @@ public class GUI extends JFrame implements ActionListener {
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("Erro ao ler dados do arquivo: " + e.getMessage());
+                     areaMensagens.append("Erro ao ler dados do arquivo: " + e.getMessage());
                 }
             } catch (Exception e) {
-                System.out.println("Erro ao abrir o arquivo: " + e.getMessage());
+                 areaMensagens.append("Erro ao abrir o arquivo: " + e.getMessage());
             }
             
              
