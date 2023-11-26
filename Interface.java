@@ -91,12 +91,12 @@ public class Interface extends JFrame {
             double latitude = Double.parseDouble(campoLatitude.getText());
             double longitude = Double.parseDouble(campoLongitude.getText());
     
-            Equipe aux = new Equipe(nome, quantidade, latitude, longitude);
-            if (equipes.addEquipe(aux)) {
+        //    Equipe aux = new Equipe(nome, quantidade, latitude, longitude, equipamentos); ver como fazer com equipamentos
+          //  if (equipes.addEquipe(aux)) {
                 areaMensagem.setText("Dados cadastrados com sucesso!\n");
-            } else {
+      //      } else {
                 areaMensagem.setText("Erro ao cadastrar dados!\n");
-            }
+       //     }
         } catch (NumberFormatException e) {
             areaMensagem.setText("Erro: Verifique se os campos 'Quantidade', 'Latitude' e 'Longitude' estão preenchidos corretamente.\n");
         } catch (Exception e) {

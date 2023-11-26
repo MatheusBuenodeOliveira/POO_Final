@@ -1,14 +1,19 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Equipe {
     private String codinome;
     private int quantidade;
     private double latitude;
     private double longitude;
+	private ArrayList <Equipamento> equipamentos = new ArrayList <Equipamento>();
 
-    public Equipe(String codinome, int quantidade, double latitude, double longitude){
+    public Equipe(String codinome, int quantidade, double latitude, double longitude, ArrayList <Equipamento> equipamentos){
         this.codinome = codinome;
         this.quantidade = quantidade;
         this.latitude = latitude;
         this.longitude = longitude;
+		this.equipamentos = equipamentos;
     }
 
     public String getCodinome(){
@@ -42,6 +47,14 @@ public class Equipe {
     public void setLongitude(double longitude){
         this.longitude = longitude;
     }
+
+	public double custoDiario(){
+		double custo = 0;
+		for (Equipamento equipamento : equipamentos){
+			custo += equipamento.getCustoDia();
+		}
+		return custo;
+	}
 
     @Override
     public String toString(){
