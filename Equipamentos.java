@@ -18,6 +18,10 @@ public class Equipamentos {
         return equipamentos.add(equipamento);
     }
 
+    public ArrayList<Equipamento> getEquipamentos(){
+        return this.equipamentos;
+    }
+
     public void ordenarEquipamentosPorIdCrescente() {
         Collections.sort(equipamentos, new Comparator<Equipamento>() {
             @Override
