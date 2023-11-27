@@ -18,11 +18,11 @@ public class EquipamentoInterface extends JFrame {
     private Equipamentos equipamentos;
     private JButton botaoAdicionar, botaoListar, botaoLerArquivos;
 
-    public EquipamentoInterface() {
-        equipamentos = new Equipamentos();
-
+    public EquipamentoInterface(Equipamentos equip) {
+        super();
+        equipamentos = equip;
         setTitle("Cadastro de Equipamentos");
-        setSize(400, 300);
+        setSize(700, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
@@ -52,6 +52,18 @@ public class EquipamentoInterface extends JFrame {
         botaoListar = new JButton("Listar Equipamentos");
         botaoLerArquivos = new JButton("Ler Arquivo de Equipamentos");
 
+        painelBotoes.add(botaoAdicionar);
+        painelBotoes.add(botaoListar);
+        painelBotoes.add(botaoLerArquivos);
+
+        add(painelBotoes, BorderLayout.CENTER);
+
+        areaMensagem = new JTextArea(10, 30);
+        areaMensagem.setEditable(false);
+        JScrollPane painelRolagem = new JScrollPane(areaMensagem);
+        add(painelRolagem, BorderLayout.SOUTH);
+
+        // Adicione os ActionListener após criar os botões
         botaoAdicionar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,17 +95,6 @@ public class EquipamentoInterface extends JFrame {
                 }
             }
         });
-
-        painelBotoes.add(botaoAdicionar);
-        painelBotoes.add(botaoListar);
-        painelBotoes.add(botaoLerArquivos);
-
-        add(painelBotoes, BorderLayout.CENTER);
-
-        areaMensagem = new JTextArea(10, 30);
-        areaMensagem.setEditable(false);
-        JScrollPane painelRolagem = new JScrollPane(areaMensagem);
-        add(painelRolagem, BorderLayout.SOUTH);
 
         setVisible(true);
     }
@@ -145,29 +146,30 @@ public class EquipamentoInterface extends JFrame {
             Scanner entrada = new Scanner(streamEntrada);
             entrada.nextLine(); // Pula a primeira linha
     
-            while ((linha = entrada.nextLine()) != null) {
+            while (entrada.hasNextLine()) {
+                linha = entrada.nextLine().trim(); // Removendo espaços extras
                 String[] partes = linha.split(";");
-                
-                int id = Integer.parseInt(partes[0]);
-                String nome = partes[1];
-                double custoDiario = Double.parseDouble(partes[2]);
-                String codinome = partes[3];
-                int tipo = Integer.parseInt(partes[4]);  
+    
+                int id = Integer.parseInt(partes[0].trim());
+                String nome = partes[1].trim();
+                double custoDiario = Double.parseDouble(partes[2].trim());
+                String codinome = partes[3].trim();
+                int tipo = Integer.parseInt(partes[4].trim());
     
                 Equipamento equipamento = null;
     
                 switch (tipo) {
                     case 1:
-                        int capacidadeCombustivel = Integer.parseInt(partes[5]);
+                        int capacidadeCombustivel = Integer.parseInt(partes[5].trim());
                         equipamento = new Barco(id, nome, custoDiario, codinome, capacidadeCombustivel);
                         break;
                     case 2:
-                        double carga = Double.parseDouble(partes[6]);
+                        double carga = Double.parseDouble(partes[5].trim());
                         equipamento = new CaminhaoTanque(id, nome, custoDiario, codinome, carga);
                         break;
                     case 3:
-                        String tipoCombustivel = partes[5];
-                        double cargaEscavadeira = Double.parseDouble(partes[6]);
+                        String tipoCombustivel = partes[5].trim();
+                        double cargaEscavadeira = Double.parseDouble(partes[6].trim());
                         equipamento = new Escavadeira(id, nome, custoDiario, codinome, tipoCombustivel, cargaEscavadeira);
                         break;
                     default:
@@ -186,4 +188,5 @@ public class EquipamentoInterface extends JFrame {
         }
     }
     
-} 
+    }
+    

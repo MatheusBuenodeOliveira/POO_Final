@@ -7,4 +7,8 @@ public class Seca extends Evento {
 	public String toString() {
 		return super.toString() + "\nTipo: Seca" + "\nEstiagem: " + this.estiagem;
 	}
+
+	public String toCSVString() {
+		return super.toCSVString() +";"+"3"+ ";" + this.estiagem;
+	}
 }

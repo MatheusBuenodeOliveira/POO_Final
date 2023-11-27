@@ -2,19 +2,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AtendimentoInterface extends JFrame {
 
-    private JTextField campoCod, campoDataInicio, campoDuracao, campoStatus;
+    private JTextField campoCod, campoDataInicio, campoDuracao, campoStatus, campoEvento;
     private JTextArea areaMensagem;
     private Atendimentos atendimentos;
-    private JButton botaoAdicionar, botaoRemover, botaoBuscar, botaoMostrar, botaoFechar;
+    private JButton botaoAdicionar, botaoRemover, botaoBuscar, botaoMostrar, botaoFechar, botaoLer;
+    private Eventos eventos;
 
-    public AtendimentoInterface() {
-        atendimentos = new Atendimentos();
+    public AtendimentoInterface(Atendimentos atend, Eventos event) {
+        atendimentos = atend ;
+        eventos = event;
         setTitle("Cadastro de Atendimentos");
-        setSize(600, 400);
+        setSize(800, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
@@ -38,6 +44,10 @@ public class AtendimentoInterface extends JFrame {
         campoStatus = new JTextField();
         painelCampos.add(campoStatus);
 
+        painelCampos.add(new JLabel("Coódigo do evento:"));
+        campoEvento = new JTextField();
+        painelCampos.add(campoEvento);
+
         add(painelCampos, BorderLayout.NORTH);
 
         JPanel painelBotoes = new JPanel();
@@ -48,18 +58,21 @@ public class AtendimentoInterface extends JFrame {
         botaoBuscar = new JButton("Buscar");
         botaoMostrar = new JButton("Mostrar Todos");
         botaoFechar = new JButton("Fechar");
+        botaoLer = new JButton("Ler Arquivo");
 
         botaoAdicionar.addActionListener(criarActionListener());
         botaoRemover.addActionListener(criarActionListener());
         botaoBuscar.addActionListener(criarActionListener());
         botaoMostrar.addActionListener(criarActionListener());
         botaoFechar.addActionListener(criarActionListener());
+        botaoLer.addActionListener(criarActionListener());
 
         painelBotoes.add(botaoAdicionar);
         painelBotoes.add(botaoRemover);
         painelBotoes.add(botaoBuscar);
         painelBotoes.add(botaoMostrar);
         painelBotoes.add(botaoFechar);
+        painelBotoes.add(botaoLer);
 
         add(painelBotoes, BorderLayout.CENTER);
 
@@ -96,8 +109,9 @@ public class AtendimentoInterface extends JFrame {
             String dataInicio = campoDataInicio.getText();
             int duracao = Integer.parseInt(campoDuracao.getText());
             String status = campoStatus.getText();
+            Evento codEvento = eventos.buscaEvento((campoEvento.getText()));
 
-            Atendimento atendimento = new Atendimento(cod, dataInicio, duracao, status, null, null); // Evento e Equipe são nulos
+            Atendimento atendimento = new Atendimento(cod, dataInicio, duracao, status, codEvento); // Evento e Equipe são nulos
 
             if (atendimentos.addAtendimento(atendimento)) {
                 areaMensagem.setText("Atendimento adicionado com sucesso!\n");
@@ -139,7 +153,7 @@ public class AtendimentoInterface extends JFrame {
     }
 
     private void mostrarAtendimentos() {
-        ArrayList<Atendimento> listaAtendimentos = atendimentos.getAtendimentos();
+         ArrayList<Atendimento> listaAtendimentos = atendimentos.getAtendimentos();
         if (listaAtendimentos.isEmpty()) {
             areaMensagem.setText("Nenhum atendimento cadastrado.\n");
         } else {
@@ -149,4 +163,5 @@ public class AtendimentoInterface extends JFrame {
             }
         }
     }
+
 }

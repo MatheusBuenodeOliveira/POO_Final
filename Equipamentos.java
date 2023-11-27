@@ -15,7 +15,12 @@ public class Equipamentos {
                 return false;
             }
         }
-        return equipamentos.add(equipamento);
+        int i = 0;
+        while (i < this.equipamentos.size() && equipamento.getId() > this.equipamentos.get(i).getId()) {
+            i++;
+        }
+        this.equipamentos.add(i, equipamento);
+        return true;
     }
 
     public ArrayList<Equipamento> getEquipamentos(){

@@ -17,8 +17,8 @@ public class Interface extends JFrame {
     private Equipes equipes;
     private JButton botaoConfirmar, botaoLimpar, botaoMostrarDados, botaoFechar, botaoLerEquipes;
 
-    public Interface() {
-        equipes = new Equipes();
+    public Interface(Equipes equipess) {
+        equipes = equipess;
         setTitle("Formulário de Cadastro de Equipes");
         setSize(600, 400);
         setLocationRelativeTo(null);

@@ -30,4 +30,13 @@ public class Equipamento {
 	public String getCodinome() {
 		return this.codinome;
 	}
+
+	public String toString() {
+		return "ID: " + this.id + ", Nome: " + this.nome + ", Custo por Dia: " + this.custoDia + ", Codinome: "
+				+ this.codinome;
+	}
+
+	public String toCSVString() {
+		return this.id + ";" + this.nome + ";" + this.custoDia + ";" + this.codinome;
+	}
 }

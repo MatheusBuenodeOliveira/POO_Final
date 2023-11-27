@@ -23,8 +23,13 @@ public class Evento {
         return this.longitude;
     }
 
+    
     public String toString() {
         return "Código: " + this.codigo + "\nData: " + this.data + "\nLatitude: " + this.latitude + "\nLongitude: " + this.longitude;
+    }
+
+    public String toCSVString() {
+        return this.codigo + ";" + this.data + ";" + this.latitude + ";" + this.longitude;
     }
 }
 

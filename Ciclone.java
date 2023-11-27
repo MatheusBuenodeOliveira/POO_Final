@@ -13,4 +13,8 @@ public class Ciclone extends Evento {
 	public String toString() {
 		return super.toString() + "\nTipo: Ciclone" + "\nVelocidade: " + this.velocidade + "\nPrecipitação: " + this.precipitacao;
 	}
+
+	public String toCSVString() {
+		return super.toCSVString() + ";1;" + this.velocidade + ";" + this.precipitacao;
+	}
 }

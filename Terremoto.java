@@ -12,4 +12,8 @@ public class Terremoto extends Evento {
 	public String toString() {
 		return super.toString() + "\nTipo: Terremoto" + "\nMagnitude: " + this.magnitude;
 	}
+
+	public String toCSVString() {
+		return super.toCSVString() + ";2;" + this.magnitude;
+	}
 }

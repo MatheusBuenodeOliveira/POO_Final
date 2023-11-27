@@ -32,4 +32,14 @@ public class Eventos {
         }
         return false;
     }
+
+     public Evento buscaEvento(String codigo) {
+        for (Evento evento : this.eventos) {
+            if (evento.getCodigo().equals(codigo)) {
+                return evento;
+            }
+        }
+        return null;
+    }
+
 }

@@ -18,9 +18,10 @@ public class GUI extends JFrame implements ActionListener {
     private JButton botaoCadastrarCiclone, botaoCadastrarSeca, botaoCadastrarTerremoto;
     private JButton botaoLimpar, botaoMostrar, botaoFechar, botaoLerArquivo;
 
-    public GUI() {
+
+    public GUI(Eventos event) {
         super();
-        eventos = new Eventos();
+        this.eventos = event;
 
         campoCodigo = new JTextField(20);
         campoData = new JTextField(20);
@@ -85,7 +86,7 @@ public class GUI extends JFrame implements ActionListener {
         botaoFechar.addActionListener(this);
         botaoLerArquivo.addActionListener(this);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 800);
         setVisible(true);
     }
@@ -270,6 +271,7 @@ public class GUI extends JFrame implements ActionListener {
             } catch (Exception e) {
                  areaMensagens.append("Erro ao abrir o arquivo: " + e.getMessage());
             }
+            
             
              
             }

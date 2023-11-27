@@ -64,4 +64,8 @@ public class Equipe {
     public String toString(){
         return "Codinome: " + this.codinome + "\nQuantidade: " + this.quantidade + "\nLatitude: " + this.latitude + "\nLongitude: " + this.longitude + "\n -----------------";
     }
+
+    public String toCSVString(){
+        return this.codinome + ";" + this.quantidade + ";" + this.latitude + ";" + this.longitude;
+    }
 }
