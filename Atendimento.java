@@ -23,11 +23,38 @@ public class Atendimento {
 		this.equipe = equipe;
 	}
 
+	public int getCod() {
+		return this.cod;
+	}
+
+	public String getDataInicio() {
+		return this.dataInicio;
+	}
+
+	public int getDuracao() {
+		return this.duracao;
+	}
+
+	public String getStatus() {
+		return this.status;
+	}
+
+	public Evento getEvento() {
+		return this.evento;
+	}
+
+	public Equipe getEquipe() {
+		return this.equipe;
+	}
+
+	public Double getDeslocamento() {
+		return this.deslocamento;
+	}
+
 	public double calculaCusto() {
 
 		return (duracao * 250 * equipe.getQuantidade()) + (duracao * equipe.custoDiario()) + (deslocamento * (100 * equipe.getQuantidade() + 0.1 * equipe.custoDiario()));
 	}
-
 
 	private double calculaDistancia(Equipe equipe, Evento evento) {
 
