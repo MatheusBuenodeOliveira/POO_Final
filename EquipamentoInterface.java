@@ -16,7 +16,7 @@ public class EquipamentoInterface extends JFrame {
     private JTextField campoId, campoNome, campoCustoDia, campoCodinome;
     private JTextArea areaMensagem;
     private Equipamentos equipamentos;
-    private JButton botaoAdicionar, botaoOrdenar, botaoListar, botaoLerArquivos;
+    private JButton botaoAdicionar, botaoListar, botaoLerArquivos;
 
     public EquipamentoInterface() {
         equipamentos = new Equipamentos();
@@ -49,7 +49,6 @@ public class EquipamentoInterface extends JFrame {
         painelBotoes.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         botaoAdicionar = new JButton("Adicionar Equipamento");
-        botaoOrdenar = new JButton("Ordenar por ID");
         botaoListar = new JButton("Listar Equipamentos");
         botaoLerArquivos = new JButton("Ler Arquivo de Equipamentos");
 
@@ -57,13 +56,6 @@ public class EquipamentoInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 adicionarEquipamento();
-            }
-        });
-
-        botaoOrdenar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ordenarEquipamentos();
             }
         });
 
@@ -77,12 +69,22 @@ public class EquipamentoInterface extends JFrame {
         botaoLerArquivos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //lerArquivoEquipamentos();
+                try {
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setDialogTitle("Escolha o arquivo de eventos");
+                    int result = fileChooser.showOpenDialog(EquipamentoInterface.this);
+    
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    lerArquivoEquipamentos(selectedFile.getAbsolutePath());
+                 } 
+                } catch (Exception ex) {
+                    areaMensagem.setText("Erro: Arquivo não encontrado.\n");
+                }
             }
         });
 
         painelBotoes.add(botaoAdicionar);
-        painelBotoes.add(botaoOrdenar);
         painelBotoes.add(botaoListar);
         painelBotoes.add(botaoLerArquivos);
 
@@ -107,6 +109,7 @@ public class EquipamentoInterface extends JFrame {
 
             if (equipamentos.addEquipamento(equipamento)) {
                 areaMensagem.setText("Equipamento adicionado com sucesso!\n");
+                ordenarEquipamentos();
                 limparCampos();
             } else {
                 areaMensagem.setText("Erro: Equipamento com ID já existe!\n");
@@ -139,17 +142,17 @@ public class EquipamentoInterface extends JFrame {
     private void lerArquivoEquipamentos(String filePath) {
         try (BufferedReader streamEntrada = new BufferedReader(new FileReader(filePath))) {
             String linha;
-            Scanner entrada;
+            Scanner entrada = new Scanner(streamEntrada);
             entrada.nextLine(); // Pula a primeira linha
     
-            while ((linha = entrada.readLine()) != null) {
+            while ((linha = entrada.nextLine()) != null) {
                 String[] partes = linha.split(";");
                 
                 int id = Integer.parseInt(partes[0]);
                 String nome = partes[1];
                 double custoDiario = Double.parseDouble(partes[2]);
                 String codinome = partes[3];
-                int tipo = Integer.parseInt(partes[4]);
+                int tipo = Integer.parseInt(partes[4]);  
     
                 Equipamento equipamento = null;
     
@@ -164,7 +167,8 @@ public class EquipamentoInterface extends JFrame {
                         break;
                     case 3:
                         String tipoCombustivel = partes[5];
-                        equipamento = new Escavadeira(id, nome, custoDiario, codinome, tipoCombustivel);
+                        double cargaEscavadeira = Double.parseDouble(partes[6]);
+                        equipamento = new Escavadeira(id, nome, custoDiario, codinome, tipoCombustivel, cargaEscavadeira);
                         break;
                     default:
                         System.out.println("Tipo de equipamento desconhecido.");

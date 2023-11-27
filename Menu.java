@@ -33,9 +33,19 @@ public class Menu extends JFrame {
             }
         });
 
+        // Botão para a interface de cadastro de equipamentos
+        JButton btnEquipamento = new JButton("Cadastrar Equipamentos");
+        btnEquipes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new EquipamentoInterface();
+            }
+        });
+
         // Adicionando botões ao JFrame
         add(btnEventos);
         add(btnEquipes);
+        add(btnEquipamento);
     }
 
     
