@@ -6,6 +6,7 @@ public class Equipe {
     private double latitude;
     private double longitude;
 	private ArrayList <Equipamento> equipamentos = new ArrayList <Equipamento>();
+    private ArrayList <Atendimento> atendimentos = new ArrayList <Atendimento>();
 
     public Equipe(String codinome, int quantidade, double latitude, double longitude){
         this.codinome = codinome;
@@ -72,6 +73,19 @@ public class Equipe {
      // Método para remover um equipamento
      public void removerEquipamento(int equipamentoId) {
         equipamentos.removeIf(equipamento -> equipamento.getId() == equipamentoId);
+    }
+
+    public boolean addAtendimento(Atendimento atendimento){
+        return this.atendimentos.add(atendimento);
+    }
+
+    public boolean isDisponivel(){
+        for (Atendimento atendimento : atendimentos){
+            if (atendimento.getStatus().equalsIgnoreCase("pendente") || atendimento.getStatus().equalsIgnoreCase("executando")){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

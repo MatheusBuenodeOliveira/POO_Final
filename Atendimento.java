@@ -12,7 +12,7 @@ public class Atendimento {
 
 	private Equipe equipe;
 
-	private Double deslocamento;// descobir como fazer
+	private Double deslocamento;
 
 	public Atendimento(int cod, String dataInicio, int duracao, String status, Evento evento) {
 		this.cod = cod;
@@ -51,6 +51,14 @@ public class Atendimento {
 		return this.deslocamento;
 	}
 
+	public void setEquipe(Equipe equipe) {
+		this.equipe = equipe;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public double calculaCusto() {
 
 		return (duracao * 250 * equipe.getQuantidade()) + (duracao * equipe.custoDiario()) + (deslocamento * (100 * equipe.getQuantidade() + 0.1 * equipe.custoDiario()));
@@ -64,7 +72,7 @@ public class Atendimento {
 		return cod + ";" + dataInicio + ";" + duracao + ";" + status + ";" + evento.getCodigo() + ";" ;//+ equipe.getCodinome() + ";" + deslocamento + ";" + calculaCusto();
 	}
 
-	private double calculaDistancia(Equipe equipe, Evento evento) {
+	public double calculaDistancia(Equipe equipe, Evento evento) {
 
 			double raioDaTerra = 6371.0;		
 			double lat1 = Math.toRadians(equipe.getLatitude());

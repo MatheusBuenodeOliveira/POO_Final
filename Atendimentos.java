@@ -55,17 +55,14 @@ public class Atendimentos {
                 return false;
             }
         }
-        return atendimentos.add(atendimento);
+        return filaAtendimentos.add(atendimento);
     }
 
-    public Atendimento removeAtendimentoFila(){
-        return filaAtendimentos.remove();
-    }
-
-    public Atendimento getAtendimentoFila(){
+    public Atendimento getPrimeiroFila(){
         return filaAtendimentos.peek();
+    } 
+
+    public Queue<Atendimento> getAtendimentosFila(){
+        return this.filaAtendimentos;
     }
-
-
-    
 }

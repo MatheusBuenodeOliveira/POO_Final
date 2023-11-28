@@ -144,6 +144,19 @@ public class Menu extends JFrame {
         });
         add(btnVincularEquipamentos);
 
+        JButton btnVincularEquipes = new JButton("Vincular Equipes a Atendimentos");
+        btnVincularEquipes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (alocarAtendimentos()){
+                    textArea.setText("Atendimentos alocados com sucesso!");
+                } else {
+                    textArea.setText("Não foi possível alocar todos os atendimentos!");
+                }
+            }
+        });
+        
+
         
 
         // Adicionando botões ao JFrame
@@ -156,9 +169,62 @@ public class Menu extends JFrame {
         add(textArea);
         add(scrollPane);
         add(btnRelatorioGeral);
+        add(btnVincularEquipes);
     
     }
 
+    
+    private boolean alocarAtendimentos() {
+        ArrayList<Atendimento> atendimentosRemovidos = new ArrayList<>();
+        boolean mudanca = false;
+    
+        for (Atendimento atendimento : atendimentos.getAtendimentosFila()) {
+            if (atendimento.getEquipe() == null) {
+                boolean equipeAlocada = false;
+                boolean equipeProxima = false;
+    
+                for (Equipe aux : equipes.getEquipes()) {
+                    if (aux.isDisponivel()) {
+                        double dist = atendimento.calculaDistancia(aux, atendimento.getEvento());
+                        System.out.println("Distancia: " + dist);
+                        if (dist <= 5000) {
+                            equipeProxima = true;
+                            atendimento.setEquipe(aux);
+                            aux.addAtendimento(atendimento);
+                            atendimento.setStatus("EXECUTANDO");
+                            atendimentosRemovidos.add(atendimento);
+                            equipeAlocada = true;
+                            mudanca = true;
+                            break;
+                        }
+                    }
+                }
+    
+                if (!equipeAlocada) {
+                    System.out.println("Equipe não alocada");
+                    if (equipeProxima) {
+                        // Adiciona novamente ao final da fila
+                        System.out.println("Equipe próxima");
+                        atendimentos.addAtendimentoFila(atendimento);
+                    } else {
+                        System.out.println("Cancelado");
+                        atendimento.setStatus("CANCELADO");
+                    }
+                    atendimentosRemovidos.add(atendimento);
+                    mudanca = true;
+                }
+            }
+        }
+    
+        // Remove os atendimentos processados da fila original
+        atendimentos.getAtendimentosFila().removeAll(atendimentosRemovidos);
+    
+        if (!mudanca) {
+            return false;
+        }
+    
+        return true;
+    }
     
     }
 
