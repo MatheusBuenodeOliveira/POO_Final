@@ -1,9 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Path;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +21,7 @@ public class AtendimentoInterface extends JFrame {
     private Eventos eventos;
 
     public AtendimentoInterface(Atendimentos atend, Eventos event) {
-        atendimentos = atend ;
+        atendimentos = atend;
         eventos = event;
         setTitle("Cadastro de Atendimentos");
         setSize(800, 500);
@@ -98,6 +102,19 @@ public class AtendimentoInterface extends JFrame {
                     mostrarAtendimentos();
                 } else if (e.getSource() == botaoFechar) {
                     System.exit(0);
+                } else if (e.getSource() == botaoLer) {
+                    try {
+                        JFileChooser fileChooser = new JFileChooser();
+                        fileChooser.setDialogTitle("Escolha o arquivo de eventos");
+                        int result = fileChooser.showOpenDialog(AtendimentoInterface.this);
+        
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        lerArquivoEquipamentos(selectedFile.getAbsolutePath());
+                     } 
+                    } catch (Exception ex) {
+                        areaMensagem.setText("Erro: Arquivo não encontrado.\n");
+                    }
                 }
             }
         };
@@ -153,7 +170,7 @@ public class AtendimentoInterface extends JFrame {
     }
 
     private void mostrarAtendimentos() {
-         ArrayList<Atendimento> listaAtendimentos = atendimentos.getAtendimentos();
+        ArrayList<Atendimento> listaAtendimentos = atendimentos.getAtendimentos();
         if (listaAtendimentos.isEmpty()) {
             areaMensagem.setText("Nenhum atendimento cadastrado.\n");
         } else {
@@ -161,6 +178,43 @@ public class AtendimentoInterface extends JFrame {
             for (Atendimento atendimento : listaAtendimentos) {
                 areaMensagem.append(atendimento.toString() + "\n");
             }
+        }
+    }
+
+    private void lerArquivoEquipamentos(String filePath) {
+        try (BufferedReader streamEntrada = new BufferedReader(new FileReader(filePath))) {
+            String linha;
+            Scanner entrada = new Scanner(streamEntrada);
+            entrada.nextLine(); // Pula a primeira linha
+    
+            while (entrada.hasNextLine()) {
+                linha = entrada.nextLine().trim(); // Removendo espaços extras
+                String[] partes = linha.split(";");
+    
+                int cod = Integer.parseInt(partes[0].trim());
+                String dataInicio = partes[1].trim();
+                int duracao = Integer.parseInt(partes[2].trim());
+                String status = partes[3].trim();
+                String codigo = partes[4].trim();
+    
+                Atendimento atendimento = null;
+                Evento aux = eventos.buscaEvento(codigo);
+                if (aux != null)
+                    atendimento = new Atendimento(cod, dataInicio, duracao, status, aux);
+                else
+                    areaMensagem.setText("Erro: Evento não encontrado.\n");
+    
+                if (atendimento != null) {
+                    atendimentos.addAtendimento(atendimento);
+                }
+            }
+            areaMensagem.setText("Equipamentos lidos do arquivo com sucesso!\n");
+        } catch (IOException e) {
+            areaMensagem.setText("Erro ao ler dados do arquivo: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            areaMensagem.setText("Erro ao converter dados: " + e.getMessage());
+        } catch (Exception e) {
+            areaMensagem.setText("Erro: " + e.getMessage());
         }
     }
 

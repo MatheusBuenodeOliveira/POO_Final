@@ -57,7 +57,7 @@ public class Atendimento {
 	}
 
 	public String toString() {
-		return "Código: " + cod + "\nData de Início: " + dataInicio + "\nDuração: " + duracao + "\nStatus: " + status + "\nEvento: " + evento.getCodigo() + "\nEquipe: " + equipe.getCodinome() + "\nDeslocamento: " + deslocamento + "\nCusto: " + calculaCusto();
+		return "Código: " + cod + "\nData de Início: " + dataInicio + "\nDuração: " + duracao + "\nStatus: " + status + "\nEvento: " + evento.getCodigo();
 	}
 
 	public String toCSVString() {
