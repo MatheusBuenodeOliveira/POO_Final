@@ -8,11 +8,14 @@ public class Equipamento {
 
 	private String codinome;
 
+	private Equipe equipe;
+
 	public Equipamento(int id, String nome, double custoDia, String codinome) {
 		this.id = id;
 		this.nome = nome;
 		this.custoDia = custoDia;
 		this.codinome = codinome;
+		this.equipe = null;
 	}
 
 	public int getId() {
@@ -29,6 +32,14 @@ public class Equipamento {
 
 	public String getCodinome() {
 		return this.codinome;
+	}
+
+	public Equipe getEquipe() {
+		return this.equipe;
+	}
+
+	public void setEquipe(Equipe equipe) {
+		this.equipe = equipe;
 	}
 
 	public String toString() {

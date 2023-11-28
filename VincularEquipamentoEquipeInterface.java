@@ -58,11 +58,14 @@ public class VincularEquipamentoEquipeInterface extends JFrame {
                 Equipe equipeSelecionada = (Equipe) comboEquipes.getSelectedItem();
 
                 if (equipamentoSelecionado != null && equipeSelecionada != null) {
-                    if (!equipeSelecionada.possuiEquipamento(equipamentoSelecionado.getId())) {
+                    if (!equipeSelecionada.possuiEquipamento(equipamentoSelecionado.getId()) && equipamentoSelecionado.getEquipe() == null) {
                         equipeSelecionada.addEquipamento(equipamentoSelecionado);
+                        equipamentoSelecionado.setEquipe(equipeSelecionada);
                         areaMensagem.setText("Equipamento vinculado com sucesso à equipe " + equipeSelecionada.getCodinome());
+                    } else if (equipamentoSelecionado.getEquipe() != null) {
+                        areaMensagem.setText("Erro: Equipamento já vinculado a uma equipe.");
                     } else {
-                        areaMensagem.setText("Erro: Equipamento já vinculado a esta equipe.");
+                        areaMensagem.setText("Erro: Equipamento já vinculado à equipe " + equipeSelecionada.getCodinome());
                     }
                 }
             }

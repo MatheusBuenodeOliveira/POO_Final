@@ -113,15 +113,15 @@ public class Menu extends JFrame {
                 for (Evento evento : eventos.getEventos()) {
                     sb.append(evento.toCSVString()).append("\n");
                 }
-                sb.append("Atendimentos: \n");
+                sb.append("\nAtendimentos: \n");
                 for (Atendimento atendimento : atendimentos.getAtendimentos()) {
                     sb.append(atendimento.toCSVString()).append("\n");
                 }
-                sb.append("Equipamentos: \n");
+                sb.append("\nEquipamentos: \n");
                 for (Equipamento equipamento : equipamentos.getEquipamentos()) {
                     sb.append(equipamento.toCSVString()).append("\n");
                 }
-                sb.append("Equipes: \n");
+                sb.append("\nEquipes: \n");
                 for (Equipe equipe : equipes.getEquipes()) {
                     sb.append(equipe.toCSVString()).append("\n");
                 }

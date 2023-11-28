@@ -206,6 +206,7 @@ public class AtendimentoInterface extends JFrame {
     
                 if (atendimento != null) {
                     atendimentos.addAtendimento(atendimento);
+                    atendimentos.addAtendimentoFila(atendimento);
                 }
             }
             areaMensagem.setText("Equipamentos lidos do arquivo com sucesso!\n");
