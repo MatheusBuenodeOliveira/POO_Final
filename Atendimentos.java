@@ -19,6 +19,9 @@ public class Atendimentos {
                 return false;
             }
         }
+        if(atendimento.getStatus().equalsIgnoreCase("pendente")) 
+            addAtendimentoFila(atendimento);
+            
         return atendimentos.add(atendimento);
     }
 
@@ -62,4 +65,7 @@ public class Atendimentos {
     public Atendimento getAtendimentoFila(){
         return filaAtendimentos.peek();
     }
+
+
+    
 }

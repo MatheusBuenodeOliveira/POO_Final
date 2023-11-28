@@ -71,7 +71,7 @@ public class Menu extends JFrame {
             }
         });
 
-        JButton btnSaveAll = new JButton("Save All");
+        JButton btnSaveAll = new JButton("Salvar CSV");
         btnSaveAll.addActionListener(e -> {
             try{
                 File file = new File("dadosout.txt");
