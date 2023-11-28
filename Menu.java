@@ -133,6 +133,17 @@ public class Menu extends JFrame {
                 textArea.setText("Erro ao gerar relatório: " + ex.getMessage());
             }
         });
+
+        // Dentro da classe Menu
+        JButton btnVincularEquipamentos = new JButton("Vincular Equipamentos a Equipes");
+        btnVincularEquipamentos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VincularEquipamentoEquipeInterface(equipamentos, equipes);
+            }
+        });
+        add(btnVincularEquipamentos);
+
         
 
         // Adicionando botões ao JFrame

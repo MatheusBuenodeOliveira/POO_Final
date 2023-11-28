@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Equipe {
@@ -59,6 +58,21 @@ public class Equipe {
 		}
 		return custo;
 	}
+
+    // Método para verificar se um equipamento já está vinculado
+    public boolean possuiEquipamento(int equipamentoId) {
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getId() == equipamentoId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+     // Método para remover um equipamento
+     public void removerEquipamento(int equipamentoId) {
+        equipamentos.removeIf(equipamento -> equipamento.getId() == equipamentoId);
+    }
 
     @Override
     public String toString(){
