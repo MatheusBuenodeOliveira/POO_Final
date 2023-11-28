@@ -98,7 +98,7 @@ public class Menu extends JFrame {
             
         });
 
-        JTextArea textArea = new JTextArea(20, 40); // ajuste as dimensões conforme necessário
+        JTextArea textArea = new JTextArea(20, 40);
         textArea.setEditable(false);
        
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -109,15 +109,19 @@ public class Menu extends JFrame {
         StringBuilder sb = new StringBuilder();
         
             try {
+                sb.append("Eventos: \n");
                 for (Evento evento : eventos.getEventos()) {
                     sb.append(evento.toCSVString()).append("\n");
                 }
+                sb.append("Atendimentos: \n");
                 for (Atendimento atendimento : atendimentos.getAtendimentos()) {
                     sb.append(atendimento.toCSVString()).append("\n");
                 }
+                sb.append("Equipamentos: \n");
                 for (Equipamento equipamento : equipamentos.getEquipamentos()) {
                     sb.append(equipamento.toCSVString()).append("\n");
                 }
+                sb.append("Equipes: \n");
                 for (Equipe equipe : equipes.getEquipes()) {
                     sb.append(equipe.toCSVString()).append("\n");
                 }
