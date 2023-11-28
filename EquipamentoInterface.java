@@ -23,7 +23,7 @@ public class EquipamentoInterface extends JFrame {
         equipamentos = equip;
         setTitle("Cadastro de Equipamentos");
         setSize(700, 500);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
         JPanel painelCampos = new JPanel();
@@ -83,7 +83,7 @@ public class EquipamentoInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setDialogTitle("Escolha o arquivo de eventos");
+                    fileChooser.setDialogTitle("Escolha o arquivo de equipamentos");
                     int result = fileChooser.showOpenDialog(EquipamentoInterface.this);
     
                 if (result == JFileChooser.APPROVE_OPTION) {

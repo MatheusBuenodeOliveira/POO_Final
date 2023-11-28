@@ -26,7 +26,7 @@ public class AtendimentoInterface extends JFrame {
         setTitle("Cadastro de Atendimentos");
         setSize(800, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
         JPanel painelCampos = new JPanel();
@@ -105,7 +105,7 @@ public class AtendimentoInterface extends JFrame {
                 } else if (e.getSource() == botaoLer) {
                     try {
                         JFileChooser fileChooser = new JFileChooser();
-                        fileChooser.setDialogTitle("Escolha o arquivo de eventos");
+                        fileChooser.setDialogTitle("Escolha o arquivo de atendimentos");
                         int result = fileChooser.showOpenDialog(AtendimentoInterface.this);
         
                     if (result == JFileChooser.APPROVE_OPTION) {

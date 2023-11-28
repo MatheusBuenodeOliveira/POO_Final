@@ -22,7 +22,7 @@ public class Interface extends JFrame {
         setTitle("Formulário de Cadastro de Equipes");
         setSize(600, 400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
         JPanel painelCampos = new JPanel();
@@ -91,7 +91,7 @@ public class Interface extends JFrame {
                     System.exit(0);
                 }else if (e.getSource() == botaoLerEquipes) {
                     JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setDialogTitle("Escolha o arquivo de eventos");
+                    fileChooser.setDialogTitle("Escolha o arquivo de equipes");
                     int result = fileChooser.showOpenDialog(Interface.this);
 
                     if (result == JFileChooser.APPROVE_OPTION) {

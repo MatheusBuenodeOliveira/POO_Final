@@ -61,7 +61,7 @@ public class Atendimento {
 	}
 
 	public String toCSVString() {
-		return cod + ";" + dataInicio + ";" + duracao + ";" + status + ";" + evento.getCodigo() + ";" + equipe.getCodinome() + ";" + deslocamento + ";" + calculaCusto();
+		return cod + ";" + dataInicio + ";" + duracao + ";" + status + ";" + evento.getCodigo() + ";" ;//+ equipe.getCodinome() + ";" + deslocamento + ";" + calculaCusto();
 	}
 
 	private double calculaDistancia(Equipe equipe, Evento evento) {

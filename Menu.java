@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -16,7 +14,7 @@ public class Menu extends JFrame {
     public Menu() {
         // Configuração inicial da janela
         setTitle("Menu Principal");
-        setSize(300, 200);
+        setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -100,6 +98,39 @@ public class Menu extends JFrame {
             
         });
 
+        JTextArea textArea = new JTextArea(20, 40); // ajuste as dimensões conforme necessário
+        textArea.setEditable(false);
+       
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        
+
+        JButton btnRelatorioGeral = new JButton("Relatório geral");
+        btnRelatorioGeral.addActionListener(e -> {
+        StringBuilder sb = new StringBuilder();
+        
+            try {
+                for (Evento evento : eventos.getEventos()) {
+                    sb.append(evento.toCSVString()).append("\n");
+                }
+                for (Atendimento atendimento : atendimentos.getAtendimentos()) {
+                    sb.append(atendimento.toCSVString()).append("\n");
+                }
+                for (Equipamento equipamento : equipamentos.getEquipamentos()) {
+                    sb.append(equipamento.toCSVString()).append("\n");
+                }
+                for (Equipe equipe : equipes.getEquipes()) {
+                    sb.append(equipe.toCSVString()).append("\n");
+                }
+        
+                textArea.setText(sb.toString()); // Atualiza a JTextArea com os dados
+        
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                textArea.setText("Erro ao gerar relatório: " + ex.getMessage());
+            }
+        });
+        
+
         // Adicionando botões ao JFrame
         add(btnEventos);
         add(btnEquipes);
@@ -107,7 +138,9 @@ public class Menu extends JFrame {
         add(btnAtendimentos);
         add(btnTeste);
         add(btnSaveAll);
-    
+        add(textArea);
+        add(scrollPane);
+        add(btnRelatorioGeral);
     
     }
 
