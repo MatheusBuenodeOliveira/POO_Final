@@ -106,7 +106,7 @@ public class Menu extends JFrame {
 
     private void salvarDadosCSV(){
         try{
-            File file = new File("dadosout.txt");
+            File file = new File("dadosout.csv");
             BufferedWriter br = new BufferedWriter(new FileWriter(file));
             for (Evento evento : eventos.getEventos()) {
                 br.write(evento.toCSVString()+"\n");

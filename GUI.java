@@ -265,8 +265,9 @@ public class GUI extends JFrame implements ActionListener {
                             default:
                                 areaMensagens.append("Tipo de evento desconhecido");
                         }
-                        areaMensagens.append("Eventos cadastrados com sucesso");
+                        
                     }
+                    areaMensagens.append("Eventos cadastrados com sucesso");
                 } catch (Exception e) {
                      areaMensagens.append("Erro ao ler dados do arquivo: " + e.getMessage());
                 }
