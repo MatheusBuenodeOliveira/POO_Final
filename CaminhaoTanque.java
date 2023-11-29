@@ -7,4 +7,8 @@ public class CaminhaoTanque extends Equipamento {
 		this.capacidade = capacidade;
 	}
 
+	public double getCapacidade() {
+		return this.capacidade;
+	}
+
 }

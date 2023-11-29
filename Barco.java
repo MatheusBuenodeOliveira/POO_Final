@@ -7,4 +7,8 @@ public class Barco extends Equipamento {
 		this.capacidade = capacidade;
 	}
 
+	public int getCapacidade() {
+		return this.capacidade;
+	}
+
 }

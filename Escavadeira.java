@@ -10,5 +10,13 @@ public class Escavadeira extends Equipamento {
 		this.carga = carga;
 	}
 
+	public String getCombustivel() {
+		return this.combustivel;
+	}
+
+	public double getCarga() {
+		return this.carga;
+	}
+
 	
 }
