@@ -133,27 +133,45 @@ public class Menu extends JFrame {
         StringBuilder sb = new StringBuilder();
         
         try {
-            sb.append("Eventos: \n");
-            for (Evento evento : eventos.getEventos()) {
-                sb.append(evento.toCSVString()).append("\n");
+            if (eventos.getEventos().isEmpty()){
+                sb.append("Não há eventos cadastrados\n");
+            } else {
+                sb.append("Eventos: \n");
+                for (Evento evento : eventos.getEventos()) {
+                    sb.append(evento.toCSVString()).append("\n");
+                }
             }
-            sb.append("\nAtendimentos: \n");
-            for (Atendimento atendimento : atendimentos.getAtendimentos()) {
-                sb.append(atendimento.toCSVString()).append("\n");
+            
+            if (atendimentos.getAtendimentos().isEmpty()){
+                sb.append("Não há atendimentos cadastrados\n");
+            } else {
+                sb.append("\nAtendimentos: \n");
+                for (Atendimento atendimento : atendimentos.getAtendimentos()) {
+                    sb.append(atendimento.toCSVString()).append("\n");
+                }
             }
-            sb.append("\nEquipamentos: \n");
-            for (Equipamento equipamento : equipamentos.getEquipamentos()) {
-                sb.append(equipamento.toCSVString()).append("\n");
+            
+            if (equipamentos.getEquipamentos().isEmpty()){
+                sb.append("Não há equipamentos cadastrados\n");
+            } else {
+                sb.append("\nEquipamentos: \n");
+                for (Equipamento equipamento : equipamentos.getEquipamentos()) {
+                    sb.append(equipamento.toCSVString()).append("\n");
+                }
             }
-            sb.append("\nEquipes: \n");
-            for (Equipe equipe : equipes.getEquipes()) {
-                sb.append(equipe.toCSVString()).append("\n");
+            
+            if (equipes.getEquipes().isEmpty()){
+                sb.append("Não há equipes cadastradas\n");
+            } else {
+                sb.append("\nEquipes: \n");
+                for (Equipe equipe : equipes.getEquipes()) {
+                    sb.append(equipe.toCSVString()).append("\n");
+                }
             }
     
             textArea.setText(sb.toString()); // Atualiza a JTextArea com os dados
     
         } catch (Exception ex) {
-            ex.printStackTrace();
             textArea.setText("Erro ao gerar relatório: " + ex.getMessage());
         }
     }
@@ -211,7 +229,7 @@ public class Menu extends JFrame {
         if (alocarAtendimentos()){
             textArea.setText("Atendimentos alocados com sucesso!");
         } else {
-            textArea.setText("Não foi possível alocar todos os atendimentos!");
+            textArea.setText("Não foi possível alocar os atendimentos!");
         }
     }
 
