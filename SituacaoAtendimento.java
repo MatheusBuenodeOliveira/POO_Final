@@ -27,6 +27,11 @@ public class SituacaoAtendimento extends JFrame {
         alterarButton = new JButton("Alterar");
         inputPanel.add(alterarButton);
 
+        JButton botaoFechar = new JButton("Voltar");
+        inputPanel.add(botaoFechar);
+
+        
+
         add(inputPanel, BorderLayout.NORTH);
 
         // Área de texto para mostrar resultados
@@ -41,6 +46,8 @@ public class SituacaoAtendimento extends JFrame {
                 alterarSituacao(atendimentos);
             }
         });
+
+        botaoFechar.addActionListener(e -> dispose());
         setVisible(true);
     }
 
@@ -50,7 +57,11 @@ public class SituacaoAtendimento extends JFrame {
         boolean achou = false;
 
         for (Atendimento atendimento : atendimentos.getAtendimentos()) {
-            if(atendimento.getCod() == Integer.parseInt(codigo)){
+            if(atendimento.getStatus().equalsIgnoreCase("finalizado")){
+                resultadoTextArea.setText("Atendimento já finalizado");
+                achou = true;
+            }
+            else if(atendimento.getCod() == Integer.parseInt(codigo) ){
                 atendimento.toString2();
                 atendimento.setStatus(novaSituacao);
                 resultadoTextArea.setText("Situação alterada com sucesso");
@@ -59,6 +70,7 @@ public class SituacaoAtendimento extends JFrame {
             }
 
         }
+        
         if(!achou)
          resultadoTextArea.setText("Atendimento não encontrado");
         

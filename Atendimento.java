@@ -59,8 +59,8 @@ public class Atendimento {
 		this.equipe = equipe;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setStatus(String status) {	
+		this.status = status;	
 	}
 
 	public double calculaCusto() {
