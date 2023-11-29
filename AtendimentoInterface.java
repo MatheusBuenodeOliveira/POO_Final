@@ -24,36 +24,55 @@ public class AtendimentoInterface extends JFrame {
         atendimentos = atend;
         eventos = event;
         setTitle("Cadastro de Atendimentos");
-        setSize(800, 500);
-        setLocationRelativeTo(null);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
-        JPanel painelCampos = new JPanel();
-        painelCampos.setLayout(new GridLayout(4, 2, 10, 10));
+        // Painel para campos de entrada
+        JPanel painelCampos = criarPainelCampos();
+        add(painelCampos, BorderLayout.NORTH);
 
+        // Painel para botões
+        JPanel painelBotoes = criarPainelBotoes();
+        add(painelBotoes, BorderLayout.CENTER);
+
+        // Área de mensagens com rolagem
+        areaMensagem = new JTextArea(10, 30);
+        areaMensagem.setEditable(false);
+        JScrollPane painelRolagem = new JScrollPane(areaMensagem);
+        add(painelRolagem, BorderLayout.SOUTH);
+
+        pack(); // Ajusta o tamanho da janela aos componentes
+        setLocationRelativeTo(null); // Centraliza a janela
+        setVisible(true);
+    }
+
+    private JPanel criarPainelCampos() {
+        JPanel painelCampos = new JPanel();
+        painelCampos.setLayout(new GridLayout(5, 2, 10, 10));
+    
         painelCampos.add(new JLabel("Código:"));
         campoCod = new JTextField();
         painelCampos.add(campoCod);
-
+    
         painelCampos.add(new JLabel("Data de Início:"));
         campoDataInicio = new JTextField();
         painelCampos.add(campoDataInicio);
-
+    
         painelCampos.add(new JLabel("Duração:"));
         campoDuracao = new JTextField();
         painelCampos.add(campoDuracao);
-
+    
         painelCampos.add(new JLabel("Status:"));
         campoStatus = new JTextField();
         painelCampos.add(campoStatus);
-
-        painelCampos.add(new JLabel("Coódigo do evento:"));
+    
+        painelCampos.add(new JLabel("Código do Evento:"));
         campoEvento = new JTextField();
         painelCampos.add(campoEvento);
+    
+        return painelCampos;
+    }
 
-        add(painelCampos, BorderLayout.NORTH);
-
+    private JPanel criarPainelBotoes() {
         JPanel painelBotoes = new JPanel();
         painelBotoes.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
@@ -61,7 +80,7 @@ public class AtendimentoInterface extends JFrame {
         botaoRemover = new JButton("Remover");
         botaoBuscar = new JButton("Buscar");
         botaoMostrar = new JButton("Mostrar Todos");
-        botaoFechar = new JButton("Fechar");
+        botaoFechar = new JButton("Voltar");
         botaoLer = new JButton("Ler Arquivo");
 
         botaoAdicionar.addActionListener(criarActionListener());
@@ -78,16 +97,9 @@ public class AtendimentoInterface extends JFrame {
         painelBotoes.add(botaoFechar);
         painelBotoes.add(botaoLer);
 
-        add(painelBotoes, BorderLayout.CENTER);
-
-        areaMensagem = new JTextArea(10, 30);
-        areaMensagem.setEditable(false);
-        JScrollPane painelRolagem = new JScrollPane(areaMensagem);
-        add(painelRolagem, BorderLayout.SOUTH);
-
-        setVisible(true);
+        return painelBotoes;
     }
-
+    
     private ActionListener criarActionListener() {
         return new ActionListener() {
             @Override
@@ -101,7 +113,7 @@ public class AtendimentoInterface extends JFrame {
                 } else if (e.getSource() == botaoMostrar) {
                     mostrarAtendimentos();
                 } else if (e.getSource() == botaoFechar) {
-                    System.exit(0);
+                    AtendimentoInterface.this.dispose();
                 } else if (e.getSource() == botaoLer) {
                     try {
                         JFileChooser fileChooser = new JFileChooser();
@@ -208,7 +220,7 @@ public class AtendimentoInterface extends JFrame {
                     atendimentos.addAtendimento(atendimento);
                 }
             }
-            areaMensagem.setText("Equipamentos lidos do arquivo com sucesso!\n");
+            areaMensagem.setText("Atendimentos lidos do arquivo com sucesso!\n");
         } catch (IOException e) {
             areaMensagem.setText("Erro ao ler dados do arquivo: " + e.getMessage());
         } catch (NumberFormatException e) {

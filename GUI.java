@@ -40,7 +40,7 @@ public class GUI extends JFrame implements ActionListener {
         botaoMostrar = new JButton("Mostrar Eventos");
         botaoLerArquivo = new JButton("Ler Arquivo de Eventos");
 
-        botaoFechar = new JButton("Fechar");
+        botaoFechar = new JButton("Voltar");
 
         JPanel painel = new JPanel(new GridLayout(0, 2));
         this.setTitle("Cadastra Eventos");
@@ -162,7 +162,7 @@ public class GUI extends JFrame implements ActionListener {
             } else if (source == botaoMostrar) {
                 mostrarEventos();
             } else if (source == botaoFechar) {
-                System.exit(0);
+                GUI.this.dispose();
             }
             else if(eventos.containsCodigo(campoCodigo.getText())){
                 areaMensagens.append("Erro: Código já cadastrado.\n");
@@ -260,10 +260,12 @@ public class GUI extends JFrame implements ActionListener {
                             case 3: // Seca
                                 int diasEstiagem = Integer.parseInt(partes[5]);
                                 eventos.addEvento(new Seca(codigo, data, latitude, longitude, diasEstiagem));
+                                
                                 break;
                             default:
-                                System.out.println("Tipo de evento desconhecido.");
+                                areaMensagens.append("Tipo de evento desconhecido");
                         }
+                        areaMensagens.append("Eventos cadastrados com sucesso");
                     }
                 } catch (Exception e) {
                      areaMensagens.append("Erro ao ler dados do arquivo: " + e.getMessage());

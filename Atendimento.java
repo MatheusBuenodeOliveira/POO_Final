@@ -51,6 +51,10 @@ public class Atendimento {
 		return this.deslocamento;
 	}
 
+	public void setDeslocamento(double deslocamento) {
+		this.deslocamento = deslocamento;
+	}
+
 	public void setEquipe(Equipe equipe) {
 		this.equipe = equipe;
 	}
@@ -65,12 +69,33 @@ public class Atendimento {
 	}
 
 	public String toString() {
-		return "Código: " + cod + "\nData de Início: " + dataInicio + "\nDuração: " + duracao + "\nStatus: " + status + "\nEvento: " + evento.getCodigo();
+    return "Código: " + cod + 
+           "\nData de Início: " + dataInicio + 
+           "\nDuração: " + duracao + 
+           "\nStatus: " + status + 
+        	(evento != null ? "\nEvento: " + evento.getCodigo() :  "")
+			 + (equipe != null ? "\nEquipe: " + equipe.getCodinome() : "");
 	}
 
-	public String toCSVString() {
-		return cod + ";" + dataInicio + ";" + duracao + ";" + status + ";" + evento.getCodigo() + ";" ;//+ equipe.getCodinome() + ";" + deslocamento + ";" + calculaCusto();
+	public String toString2(){
+        return "Código: " + cod + 
+           "\nData de Início: " + dataInicio + 
+           "\nDuração: " + duracao + 
+           "\nStatus: " + status + 
+		(evento != null ? "\nEvento: " + evento.toString() :  "")
+			 + (equipe != null ? "\nEquipe: " + equipe.toString(): "");
 	}
+
+
+	public String toCSVString() {
+		return cod + ";" + dataInicio + ";" + duracao + ";" + status + ";" + 
+       (evento != null ? evento.getCodigo() : "" ) + ";" + 
+       // Aqui você precisa decidir o que fazer se `equipe` for nulo. 
+       // Estou assumindo que você vai querer retornar uma string vazia nesse caso.
+       (equipe != null ? equipe.getCodinome() + ";" + 
+       deslocamento + ";" + calculaCusto() : "") + ";";
+	}
+
 
 	public double calculaDistancia(Equipe equipe, Evento evento) {
 

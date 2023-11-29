@@ -22,7 +22,6 @@ public class Interface extends JFrame {
         setTitle("Formulário de Cadastro de Equipes");
         setSize(600, 400);
         setLocationRelativeTo(null);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
         JPanel painelCampos = new JPanel();
@@ -52,7 +51,7 @@ public class Interface extends JFrame {
         botaoConfirmar = new JButton("Confirmar");
         botaoLimpar = new JButton("Limpar");
         botaoMostrarDados = new JButton("Mostrar Dados");
-        botaoFechar = new JButton("Fechar");
+        botaoFechar = new JButton("Voltar");
         botaoLerEquipes = new JButton("Ler Equipes de Arquivo");
 
         botaoConfirmar.addActionListener(criarActionListener());
@@ -88,7 +87,7 @@ public class Interface extends JFrame {
                 } else if (e.getSource() == botaoMostrarDados) {
                     mostrarDados();
                 } else if (e.getSource() == botaoFechar) {
-                    System.exit(0);
+                    Interface.this.dispose();
                 }else if (e.getSource() == botaoLerEquipes) {
                     JFileChooser fileChooser = new JFileChooser();
                     fileChooser.setDialogTitle("Escolha o arquivo de equipes");
@@ -110,12 +109,12 @@ public class Interface extends JFrame {
             double latitude = Double.parseDouble(campoLatitude.getText());
             double longitude = Double.parseDouble(campoLongitude.getText());
     
-        //    Equipe aux = new Equipe(nome, quantidade, latitude, longitude, equipamentos); ver como fazer com equipamentos
-          //  if (equipes.addEquipe(aux)) {
+            Equipe aux = new Equipe(nome, quantidade, latitude, longitude);
+            if (equipes.addEquipe(aux)) {
                 areaMensagem.setText("Dados cadastrados com sucesso!\n");
-      //      } else {
+            } else {
                 areaMensagem.setText("Erro ao cadastrar dados!\n");
-       //     }
+            }
         } catch (NumberFormatException e) {
             areaMensagem.setText("Erro: Verifique se os campos 'Quantidade', 'Latitude' e 'Longitude' estão preenchidos corretamente.\n");
         } catch (Exception e) {
@@ -165,6 +164,7 @@ public class Interface extends JFrame {
                     double longitude = Double.parseDouble(partes[3]);
         
                     equipes.addEquipe(new Equipe(codinome, quantidade, latitude, longitude));
+                    areaMensagem.setText("Equipes lidas do arquivo com sucesso!\n");
                 }
             } catch (Exception e) {
                 areaMensagem.setText("Erro ao ler dados do arquivo: " + e.getMessage());

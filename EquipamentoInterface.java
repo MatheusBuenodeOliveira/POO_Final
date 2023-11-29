@@ -6,9 +6,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.Charset;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -22,12 +19,30 @@ public class EquipamentoInterface extends JFrame {
         super();
         equipamentos = equip;
         setTitle("Cadastro de Equipamentos");
-        setSize(700, 500);
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
-        JPanel painelCampos = new JPanel();
-        painelCampos.setLayout(new GridLayout(4, 2, 10, 10));
+        inicializarComponentes();
+        configurarEventos();
+        pack(); // Ajusta o tamanho da janela aos componentes
+        setLocationRelativeTo(null); // Centraliza a janela
+        setVisible(true);
+    }
+
+    private void inicializarComponentes() {
+        JPanel painelCampos = criarPainelCampos();
+        add(painelCampos, BorderLayout.NORTH);
+
+        JPanel painelBotoes = criarPainelBotoes();
+        add(painelBotoes, BorderLayout.CENTER);
+
+        areaMensagem = new JTextArea(10, 30);
+        areaMensagem.setEditable(false);
+        add(new JScrollPane(areaMensagem), BorderLayout.SOUTH);
+    }
+
+    private JPanel criarPainelCampos() {
+        JPanel painelCampos = new JPanel(new GridLayout(4, 2, 10, 10));
 
         campoId = new JTextField();
         campoNome = new JTextField();
@@ -43,60 +58,59 @@ public class EquipamentoInterface extends JFrame {
         painelCampos.add(new JLabel("Codinome:"));
         painelCampos.add(campoCodinome);
 
-        add(painelCampos, BorderLayout.NORTH);
+        return painelCampos;
+    }
 
-        JPanel painelBotoes = new JPanel();
-        painelBotoes.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+    private JPanel criarPainelBotoes() {
+        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         botaoAdicionar = new JButton("Adicionar Equipamento");
         botaoListar = new JButton("Listar Equipamentos");
         botaoLerArquivos = new JButton("Ler Arquivo de Equipamentos");
+        JButton botaoFechar = new JButton("Voltar");
 
         painelBotoes.add(botaoAdicionar);
         painelBotoes.add(botaoListar);
         painelBotoes.add(botaoLerArquivos);
+        painelBotoes.add(botaoFechar);
 
-        add(painelBotoes, BorderLayout.CENTER);
+        botaoFechar.addActionListener(e -> dispose());
 
-        areaMensagem = new JTextArea(10, 30);
-        areaMensagem.setEditable(false);
-        JScrollPane painelRolagem = new JScrollPane(areaMensagem);
-        add(painelRolagem, BorderLayout.SOUTH);
+        return painelBotoes;
+    }
 
-        // Adicione os ActionListener após criar os botões
-        botaoAdicionar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                adicionarEquipamento();
+    private void configurarEventos() {
+    botaoAdicionar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            adicionarEquipamento();
+        }
+    });
+
+    botaoListar.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            listarEquipamentos();
+        }
+    });
+
+    botaoLerArquivos.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Escolha o arquivo de equipamentos");
+                int result = fileChooser.showOpenDialog(EquipamentoInterface.this);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                lerArquivoEquipamentos(selectedFile.getAbsolutePath());
+             } 
+            } catch (Exception ex) {
+                areaMensagem.setText("Erro: Arquivo não encontrado.\n");
             }
-        });
-
-        botaoListar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                listarEquipamentos();
-            }
-        });
-
-        botaoLerArquivos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setDialogTitle("Escolha o arquivo de equipamentos");
-                    int result = fileChooser.showOpenDialog(EquipamentoInterface.this);
-    
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    lerArquivoEquipamentos(selectedFile.getAbsolutePath());
-                 } 
-                } catch (Exception ex) {
-                    areaMensagem.setText("Erro: Arquivo não encontrado.\n");
-                }
-            }
-        });
-
-        setVisible(true);
+        }
+    });
     }
 
     private void adicionarEquipamento() {
@@ -122,7 +136,6 @@ public class EquipamentoInterface extends JFrame {
 
     private void ordenarEquipamentos() {
         equipamentos.ordenarEquipamentosPorIdCrescente();
-        areaMensagem.setText("Equipamentos ordenados por ID.\n");
     }
 
     private void listarEquipamentos() {
