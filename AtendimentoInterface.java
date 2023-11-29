@@ -61,7 +61,7 @@ public class AtendimentoInterface extends JFrame {
         campoDuracao = new JTextField();
         painelCampos.add(campoDuracao);
     
-        painelCampos.add(new JLabel("Status:"));
+        painelCampos.add(new JLabel("Status: \n (PENDENTE, EXECUTANDO, FINALIZADO, CONCLUIDO)"));
         campoStatus = new JTextField();
         painelCampos.add(campoStatus);
     
@@ -139,13 +139,21 @@ public class AtendimentoInterface extends JFrame {
             int duracao = Integer.parseInt(campoDuracao.getText());
             String status = campoStatus.getText();
             Evento codEvento = eventos.buscaEvento((campoEvento.getText()));
+            Atendimento atendimento = null;
 
-            Atendimento atendimento = new Atendimento(cod, dataInicio, duracao, status, codEvento); // Evento e Equipe são nulos
-
-            if (atendimentos.addAtendimento(atendimento)) {
-                areaMensagem.setText("Atendimento adicionado com sucesso!\n");
+            if (status.equalsIgnoreCase("pendente") || status.equalsIgnoreCase("executando") || status.equalsIgnoreCase("finalizado")
+            || status.equalsIgnoreCase("cancelado")) {
+                atendimento = new Atendimento(cod, dataInicio, duracao, status, codEvento); // Evento e Equipe são nulos
             } else {
-                areaMensagem.setText("Erro ao adicionar atendimento. O código já existe.\n");
+                areaMensagem.setText("Erro: Status inválido.\n");
+                return;
+            }
+            if (atendimento != null){
+                if (atendimentos.addAtendimento(atendimento)) {
+                    areaMensagem.setText("Atendimento adicionado com sucesso!\n");
+                } else {
+                    areaMensagem.setText("Erro ao adicionar atendimento. O código já existe.\n");
+                }
             }
         } catch (NumberFormatException e) {
             areaMensagem.setText("Erro: Verifique se os campos estão preenchidos corretamente.\n");
